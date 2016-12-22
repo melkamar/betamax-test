@@ -17,7 +17,7 @@ with betamax.Betamax.configure() as config:
 
 
 @pytest.fixture
-def auth_store(betamax_session):
+def foo_fixture(betamax_session):
     global foo_object
     if foo_object:
         return foo_object
