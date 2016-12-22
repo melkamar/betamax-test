@@ -13,15 +13,18 @@ with betamax.Betamax.configure() as config:
     #     # 'body'
     # ]
     #
-    # config.default_cassette_options['record_mode'] = 'all'
+    config.default_cassette_options['record_mode'] = 'all'
 
 
 @pytest.fixture
 def foo_fixture(betamax_session):
+    """ If foo_object does not exist yet, create it and assign betamax session. Otherwise just return it. """
+
     global foo_object
     if foo_object:
         return foo_object
-        # WTF!!! when returning this store, its session.adapters are DIFFERENT (original requests' instead of betamax)!!
+        # when returning this store, its session.adapters are DIFFERENT (original requests' instead of betamax)
+        # -- not sure if this could be an issue or what.
     else:
         betamax_session.headers.update({'Accept-Encoding': 'identity'})
         foo_object = foo.FooRequestsClass(betamax_session)
